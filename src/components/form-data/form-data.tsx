@@ -21,15 +21,37 @@ const FormData: React.FC = () => {
     }
   };
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
+  const onSubmitHandler = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     event.preventDefault();
-    console.log("Submitted Data: ", formData);
-    setFormData({
-      userId: 0,
-      id: 0,
-      title: "",
-      body: "",
-    });
+
+    try {
+      // post call
+      const postUrl = "https://jsonplaceholder.typicode.com/posts";
+      const postJson = await fetch(postUrl, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!postJson.ok) {
+        throw new Error("Issue in post call");
+      }
+      const postData = await postJson.json();
+      if (postData && postData.id > 0) {
+        console.log("Post call success Data: ", postData);
+        setFormData({
+          userId: 0,
+          id: 0,
+          title: "",
+          body: "",
+        });
+      }
+    } catch (e) {
+      console.log("Error fetching post call", e);
+    }
   };
 
   return (
