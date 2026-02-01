@@ -45,22 +45,22 @@ const ListData: React.FC = () => {
       {listData.length === 0 ? (
         <p>No Record Found</p>
       ) : (
-        {detailId != null && (
+        <>
+          {detailId !== null && (
             <>
-                <DetailData detailId={detailId} />
-                <br />
+              <DetailData detailId={detailId} />
+              <br />
             </>
-
-        )}
-
-        <ul>
-          {listData.map((data, index) => (
-            <li key={index} onClick={() => handleClick(data.id)}>
-              <strong>{data.title}</strong>
-              <p>{data.body}</p>
-            </li>
-          ))}
-        </ul>
+          )}
+          <ul>
+            {listData.map((data, index) => (
+              <li key={index} onClick={() => handleClick(data.id)}>
+                <strong>{data.title}</strong>
+                <p>{data.body}</p>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </>
   );
